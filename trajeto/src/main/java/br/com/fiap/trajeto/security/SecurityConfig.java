@@ -39,6 +39,8 @@ private TokenVerify tokenVerify;
                                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/trajeto").hasRole("USER")
+                                .requestMatchers(HttpMethod.PUT, "/api/trajeto/*").hasRole("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/api/trajeto/*").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .addFilterBefore(tokenVerify, UsernamePasswordAuthenticationFilter.class)
 

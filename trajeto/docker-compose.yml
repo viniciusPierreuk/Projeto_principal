@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  oracle-db:
+    image: gvenzl/oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: 110304
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oracle-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@oracle-db:1521/XEPDB1
+      - SPRING_DATASOURCE_USERNAME=RM553487
+      - SPRING_DATASOURCE_PASSWORD=110304
+      - SPRING_DATASOURCE_ROLE=sysdba
