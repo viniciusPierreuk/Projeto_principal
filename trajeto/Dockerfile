@@ -1,11 +1,14 @@
 # Usar uma imagem base com Java
-FROM openjdk:17-jdk-alpine
+FROM openjdk:21-jdk-alpine
+
 
 
 WORKDIR /app
 
 
-COPY target/seu-aplicativo.jar app.jar
+COPY target/*.jar app.jar
+
+
 
 
 EXPOSE 8080
