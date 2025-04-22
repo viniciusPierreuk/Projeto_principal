@@ -19,7 +19,7 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: 'docker-hub-connection'
+    containerRegistry: 'viniciusPierreuk'
     repository: 'trajeto-app'
     command: 'buildAndPush'
     Dockerfile: 'trajeto/Dockerfile'
