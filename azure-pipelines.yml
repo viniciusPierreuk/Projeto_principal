@@ -1,0 +1,35 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'trajeto/pom.xml'
+    goals: 'clean package'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+
+- task: CopyFiles@2
+  inputs:
+    contents: '**/target/*.jar'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: '<NomeDaSuaConexaoDocker>'
+    repository: 'trajeto-app'
+    command: 'buildAndPush'
+    Dockerfile: 'trajeto/Dockerfile'
+    tags: |
+      latest
+      $(Build.BuildId)
+
+- task: DockerCompose@0
+  inputs:
+    containerregistrytype: 'Azure Container Registry'
+    dockerComposeFile: 'trajeto/docker-compose.yml'
+    action: 'Run services'
+    projectName: 'trajeto'
